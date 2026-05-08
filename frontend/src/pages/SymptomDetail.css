@@ -1,0 +1,40 @@
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #7c3aed;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.page-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: capitalize;
+}
+
+.page-subtitle {
+  margin: 0 0 1.5rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.supplement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.state-msg {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.state-msg.error {
+  color: #dc2626;
+}
