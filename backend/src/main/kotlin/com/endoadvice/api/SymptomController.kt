@@ -4,6 +4,7 @@ import com.endoadvice.repository.FindingRepository
 import com.endoadvice.repository.SupplementRepository
 import com.endoadvice.repository.SymptomRepository
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,6 +20,7 @@ class SymptomController(
         symptomRepository.findAllWithFindings().map { it.toSummaryDto() }
 
     @GetMapping("/{slug}/supplements")
+    @Transactional(readOnly = true)
     fun getSupplementsForSymptom(@PathVariable slug: String): ResponseEntity<List<SupplementDetailDto>> {
         symptomRepository.findBySlug(slug) ?: return ResponseEntity.notFound().build()
 
