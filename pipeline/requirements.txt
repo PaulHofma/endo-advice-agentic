@@ -1,4 +1,4 @@
-google-genai>=1.0.0
+anthropic>=0.49.0
 requests>=2.32.0
 biopython>=1.84
 psycopg2-binary>=2.9.9
