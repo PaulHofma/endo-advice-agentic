@@ -38,7 +38,7 @@ Shared database: **PostgreSQL** (Docker Compose).
 docker-compose up -d
 ```
 
-**Backend** (connects to `localhost:5432`):
+**Backend** (connects to `localhost:6543`):
 ```bash
 cd backend
 ./gradlew bootRun        # run

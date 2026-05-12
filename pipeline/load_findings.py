@@ -3,7 +3,7 @@
 
 Usage:
     python3 load_findings.py --review review_NAC_endometriosis_20250101_120000.md
-    python3 load_findings.py --review review.md --db-url postgresql://endo:endo_secret@localhost:5432/endo_advice
+    python3 load_findings.py --review review.md --db-url postgresql://endo:endo_secret@localhost:6543/endo_advice
 """
 
 import argparse
@@ -14,7 +14,7 @@ import sys
 import psycopg2
 import psycopg2.extras
 
-DEFAULT_DB_URL = "postgresql://endo:endo_secret@localhost:5432/endo_advice"
+DEFAULT_DB_URL = "postgresql://endo:endo_secret@localhost:6543/endo_advice"
 
 
 def parse_review_file(path: str) -> list[dict]:

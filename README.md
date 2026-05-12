@@ -75,14 +75,14 @@ sdkman_auto_env=true
 git clone <repo-url>
 cd endo-advice-agentic
 
-docker compose up -d        # starts Postgres on localhost:5432
+docker compose up -d        # starts Postgres on localhost:6543
 ```
 
 Postgres credentials (see `docker-compose.yml`):
 
 | Setting | Value |
 |---|---|
-| Host | `localhost:5432` |
+| Host | `localhost:6543` |
 | Database | `endo_advice` |
 | Username | `endo` |
 | Password | `endo_secret` |
