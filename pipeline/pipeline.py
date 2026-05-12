@@ -29,7 +29,9 @@ def main() -> None:
     topic = args.topic.strip()
     safe_topic = topic.replace(" ", "_").replace("/", "_")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path = args.output or f"review_{safe_topic}_{timestamp}.md"
+    reviews_dir = Path(__file__).parent / "reviews"
+    reviews_dir.mkdir(exist_ok=True)
+    output_path = args.output or str(reviews_dir / f"review_{safe_topic}_{timestamp}.md")
 
     print(f"=== Endo Advice Pipeline ===")
     print(f"Topic: {topic}")
