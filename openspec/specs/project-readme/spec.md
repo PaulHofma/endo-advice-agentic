@@ -1,3 +1,6 @@
+## Purpose
+The project README provides developers and operators with everything needed to understand, set up, and run the endo-advice-agentic system locally.
+## Requirements
 ### Requirement: README exists at the repository root
 The repository SHALL contain a `README.md` at the root that is the primary entry point for understanding the project.
 
@@ -13,11 +16,11 @@ The README SHALL include step-by-step instructions to run all three components l
 - **THEN** they can start all components and reach the frontend in a browser
 
 ### Requirement: README documents the operator pipeline workflow
-The README SHALL describe how to run the Python pipeline, review the output, and load approved findings into the database.
+The README SHALL describe how to run the Python pipeline, review the output, and load approved findings into the database. Setup instructions SHALL reference `GEMINI_API_KEY` (not `ANTHROPIC_API_KEY`) as the required environment variable.
 
 #### Scenario: Operator runs the pipeline
 - **WHEN** the operator reads the pipeline section of the README
-- **THEN** they can find the exact commands to run synthesis, review the output file, and load approved findings
+- **THEN** they can find the exact commands to run synthesis, review the output file, and load approved findings, and they see `GEMINI_API_KEY` as the required API key env var
 
 ### Requirement: README describes the architecture
 The README SHALL include a brief architecture overview describing the three components and how they relate to each other.
@@ -25,3 +28,4 @@ The README SHALL include a brief architecture overview describing the three comp
 #### Scenario: Developer reads architecture section
 - **WHEN** a developer reads the architecture section
 - **THEN** they understand the role of each component (pipeline, backend, frontend) and the data flow between them
+
