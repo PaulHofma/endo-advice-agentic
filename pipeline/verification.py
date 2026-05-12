@@ -1,4 +1,4 @@
-"""Verification agent — re-fetches abstracts and verifies each synthesized claim with Claude."""
+"""Verification agent — re-fetches abstracts and verifies each synthesized claim with Gemini."""
 
 import json
 import os
@@ -6,12 +6,12 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 
-import anthropic
+from google import genai
 
 from pubmed import fetch_abstract
 from synthesis import RawFinding
 
-CLAUDE_MODEL = "claude-opus-4-5"
+GEMINI_MODEL = "gemini-2.0-flash"
 
 
 class Verdict(str, Enum):
@@ -60,7 +60,7 @@ def run_verification(findings: list[RawFinding]) -> list[VerifiedFinding]:
     if not findings:
         return []
 
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     results: list[VerifiedFinding] = []
 
     for i, finding in enumerate(findings, 1):
@@ -80,18 +80,12 @@ def run_verification(findings: list[RawFinding]) -> list[VerifiedFinding]:
             )
             continue
 
-        message = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=512,
-            messages=[
-                {
-                    "role": "user",
-                    "content": _build_verification_prompt(finding, article.abstract),
-                }
-            ],
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=_build_verification_prompt(finding, article.abstract),
         )
 
-        raw_text = message.content[0].text.strip()
+        raw_text = response.text.strip()
         if raw_text.startswith("```"):
             raw_text = raw_text.split("```")[1]
             if raw_text.startswith("json"):

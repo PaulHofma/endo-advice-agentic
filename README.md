@@ -32,7 +32,7 @@ A freely accessible, research-backed information tool for people with endometrio
 
 | Component | Tech | Purpose |
 |---|---|---|
-| `pipeline/` | Python 3, Anthropic SDK, Biopython | Operator-run tool: queries PubMed, synthesises findings with Claude, verifies claims, produces a review file for human approval |
+| `pipeline/` | Python 3, Google Gemini API (`google-genai`), Biopython | Operator-run tool: queries PubMed, synthesises findings with Gemini, verifies claims, produces a review file for human approval |
 | `backend/` | Kotlin, Spring Boot 3, Flyway, JPA | Read-only REST API over a Postgres database of supplements, findings, and citations |
 | `frontend/` | React 19, Vite, TypeScript, React Router | Browse supplements and navigate by symptom; zero AI at runtime |
 
@@ -122,7 +122,7 @@ pip3 install -r requirements.txt
 ### Set your API key
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
+export GEMINI_API_KEY=your-key-here
 ```
 
 ### Run synthesis + verification

@@ -1,14 +1,14 @@
-"""Synthesis agent — queries PubMed and uses Claude to produce structured findings."""
+"""Synthesis agent — queries PubMed and uses Gemini to produce structured findings."""
 
 import json
 import os
 from dataclasses import dataclass, field
 
-import anthropic
+from google import genai
 
 from pubmed import PubMedArticle, fetch_abstracts, search_pubmed
 
-CLAUDE_MODEL = "claude-opus-4-5"
+GEMINI_MODEL = "gemini-2.0-flash"
 
 
 @dataclass
@@ -76,15 +76,14 @@ def run_synthesis(topic: str, max_articles: int = 15) -> list[RawFinding]:
         print("[synthesis] No usable abstracts retrieved")
         return []
 
-    print(f"[synthesis] Synthesizing {len(articles)} abstracts with Claude...")
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-    message = client.messages.create(
-        model=CLAUDE_MODEL,
-        max_tokens=4096,
-        messages=[{"role": "user", "content": _build_synthesis_prompt(topic, articles)}],
+    print(f"[synthesis] Synthesizing {len(articles)} abstracts with Gemini...")
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    response = client.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=_build_synthesis_prompt(topic, articles),
     )
 
-    raw_text = message.content[0].text.strip()
+    raw_text = response.text.strip()
     # Strip markdown code fences if present
     if raw_text.startswith("```"):
         raw_text = raw_text.split("```")[1]
@@ -94,7 +93,7 @@ def run_synthesis(topic: str, max_articles: int = 15) -> list[RawFinding]:
     try:
         findings_data: list[dict] = json.loads(raw_text)
     except json.JSONDecodeError as e:
-        print(f"[synthesis] Failed to parse Claude output as JSON: {e}")
+        print(f"[synthesis] Failed to parse Gemini output as JSON: {e}")
         return []
 
     article_by_pmid = {a.pmid: a for a in articles}

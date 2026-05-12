@@ -61,6 +61,8 @@ pip install -r requirements.txt
 python3 <script>.py
 ```
 
+> **pyenv**: This project uses pyenv to manage the Python version. Always use the pyenv-resolved `python3` / `pip3` — never bypass it with an absolute path or a system Python. The active version is set by `.python-version` (if present) or the global pyenv config.
+
 ## Database migrations
 
 Flyway manages the schema. Migration files live in `backend/src/main/resources/db/migration/` and follow the `V{n}__{description}.sql` naming convention. Add new migrations there — never modify existing ones.
