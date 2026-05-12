@@ -77,7 +77,7 @@ def run_synthesis(topic: str, max_articles: int = 15) -> list[RawFinding]:
         return []
 
     print(f"[synthesis] Synthesizing {len(articles)} abstracts with Claude...")
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = anthropic.Anthropic(api_key=os.environ["ENDO_API_KEY"])
     response = client.messages.create(
         model=CLAUDE_MODEL,
         max_tokens=2048,

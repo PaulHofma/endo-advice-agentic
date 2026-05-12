@@ -122,7 +122,7 @@ pip3 install -r requirements.txt
 ### Set your API key
 
 ```bash
-export ANTHROPIC_API_KEY=your-key-here
+export ENDO_API_KEY=your-key-here
 ```
 
 ### Run synthesis + verification

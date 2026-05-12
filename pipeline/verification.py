@@ -60,7 +60,7 @@ def run_verification(findings: list[RawFinding]) -> list[VerifiedFinding]:
     if not findings:
         return []
 
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = anthropic.Anthropic(api_key=os.environ["ENDO_API_KEY"])
     results: list[VerifiedFinding] = []
 
     for i, finding in enumerate(findings, 1):

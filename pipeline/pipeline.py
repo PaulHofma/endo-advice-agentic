@@ -22,8 +22,8 @@ def main() -> None:
     parser.add_argument("--output", default=None, help="Output review file path (default: review_<topic>_<timestamp>.md)")
     args = parser.parse_args()
 
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("Error: ANTHROPIC_API_KEY environment variable is not set.", file=sys.stderr)
+    if not os.environ.get("ENDO_API_KEY"):
+        print("Error: ENDO_API_KEY environment variable is not set.", file=sys.stderr)
         sys.exit(1)
 
     topic = args.topic.strip()
