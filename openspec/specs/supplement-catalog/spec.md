@@ -1,5 +1,3 @@
-## ADDED Requirements
-
 ### Requirement: Supplements are browsable as a catalog
 The system SHALL expose a list of all supplements with at least one approved finding. Each supplement entry SHALL display its name and a brief plain-language summary of its overall evidence.
 
@@ -12,11 +10,11 @@ The system SHALL expose a list of all supplements with at least one approved fin
 - **THEN** the catalog displays a clear empty state, not an error
 
 ### Requirement: Each supplement has a detail page with findings
-The system SHALL provide a detail page for each supplement. The detail page SHALL display, in order: a plain-language summary, an evidence snapshot (number of studies, study types), and a list of individual findings each with a quoted excerpt and PubMed link.
+The system SHALL provide a detail page for each supplement. The detail page SHALL display, in order: the supplement overview summary, then symptom sections each beginning with the supplement×symptom summary, followed by individual findings with quoted excerpts and PubMed links.
 
 #### Scenario: User views supplement detail
 - **WHEN** a user navigates to a supplement's detail page
-- **THEN** they see the plain-language summary first, followed by the evidence snapshot, followed by individual study findings
+- **THEN** they see the supplement overview summary first, followed by symptom sections each led by a supplement×symptom summary, followed by individual study findings within each section
 
 #### Scenario: Finding links to PubMed
 - **WHEN** a user clicks a citation on the detail page
