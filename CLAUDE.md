@@ -73,6 +73,19 @@ Flyway manages the schema. Migration files live in `backend/src/main/resources/d
 - **Batch staging by concern** — e.g. domain model changes in one batch, migration in another, API layer in another. Aim for batches that would make a sensible standalone commit message.
 - When a feature is fully implemented, summarize what's staged and why it's grouped that way, then stop.
 
+## Frontend conventions
+
+When doing frontend work, invoke the appropriate skill or sub-agent for the activity:
+
+| Activity | Tool |
+|---|---|
+| UI design, redesign, polish, visual audit, or any aesthetic improvement | `impeccable` skill |
+| Accessibility audit or web best-practice compliance review | `web-design-guidelines` skill |
+| Early-stage UI exploration, layout ideation, or design inspiration | `ui-design` skill |
+| React feature implementation, components, hooks, or TypeScript logic | `frontend-web-dev:expert-react-frontend-engineer` sub-agent |
+
+These are triggers by *type of work*, not by file touched — a one-line component edit doesn't require a skill; adding a new page or redesigning a section does.
+
 ## Key conventions
 
 - **Backend**: Kotlin idiomatic style. JPA entities are plain classes (no `data class` for JPA roots). Use `FetchType.LAZY` on all associations.
