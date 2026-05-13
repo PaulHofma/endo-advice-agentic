@@ -9,6 +9,7 @@ Can be run standalone:
 """
 
 import argparse
+import json
 import os
 import time
 
@@ -30,11 +31,13 @@ def run(db_url: str = DEFAULT_DB_URL) -> None:
     conn = psycopg2.connect(db_url)
     conn.autocommit = False
 
+    client = anthropic.Anthropic(api_key=os.environ["ENDO_API_KEY"])
+
     try:
         _delete_all_summaries(conn)
-        pair_summaries = _generate_supplement_symptom_summaries(conn)
-        _generate_supplement_summaries(conn, pair_summaries)
-        _generate_symptom_summaries(conn, pair_summaries)
+        pair_summaries = _generate_supplement_symptom_summaries(conn, client)
+        _generate_supplement_summaries(conn, pair_summaries, client)
+        _generate_symptom_summaries(conn, pair_summaries, client)
         conn.commit()
         print("[summarise] All summaries committed.")
     except Exception as e:
@@ -62,11 +65,10 @@ def _delete_all_summaries(conn) -> None:
 # Stage 1: supplement × symptom pair summaries
 # ---------------------------------------------------------------------------
 
-def _generate_supplement_symptom_summaries(conn) -> list[dict]:
+def _generate_supplement_symptom_summaries(conn, client) -> list[dict]:
     """Generate one summary per supplement×symptom pair that has findings."""
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # Fetch all supplement×symptom pairs with at least one finding
     cur.execute("""
         SELECT DISTINCT
             s.id   AS supplement_id,
@@ -82,7 +84,6 @@ def _generate_supplement_symptom_summaries(conn) -> list[dict]:
     pairs = cur.fetchall()
     print(f"[summarise] Generating pair summaries for {len(pairs)} supplement×symptom pairs...")
 
-    client = anthropic.Anthropic(api_key=os.environ["ENDO_API_KEY"])
     results = []
 
     for pair in pairs:
@@ -91,7 +92,6 @@ def _generate_supplement_symptom_summaries(conn) -> list[dict]:
         sup_name = pair["supplement_name"]
         sym_name = pair["symptom_name"]
 
-        # Fetch all findings for this pair
         cur.execute("""
             SELECT
                 f.plain_language_summary,
@@ -133,13 +133,7 @@ Example:
                 max_tokens=512,
                 messages=[{"role": "user", "content": prompt}],
             )
-            import json
-            raw = response.content[0].text.strip()
-            if raw.startswith("```"):
-                raw = raw.split("```")[1]
-                if raw.startswith("json"):
-                    raw = raw[4:]
-            data = json.loads(raw)
+            data = _parse_json_response(response.content[0].text.strip())
             content = data["content"]
             evidence_strength = data["evidence_strength"]
         except Exception as e:
@@ -171,17 +165,13 @@ Example:
 # Stage 2: supplement overview summaries
 # ---------------------------------------------------------------------------
 
-def _generate_supplement_summaries(conn, pair_summaries: list[dict]) -> None:
+def _generate_supplement_summaries(conn, pair_summaries: list[dict], client) -> None:
     """Generate one overview summary per supplement."""
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # Get all supplement ids+names (including those with no findings)
     cur.execute("SELECT id, name FROM supplements ORDER BY name")
     supplements = cur.fetchall()
     print(f"[summarise] Generating supplement summaries for {len(supplements)} supplements...")
-
-    client = anthropic.Anthropic(api_key=os.environ["ENDO_API_KEY"])
-    import json
 
     for sup in supplements:
         sup_id = sup["id"]
@@ -221,12 +211,7 @@ Return JSON with one key: "content" (the summary text)."""
                 max_tokens=512,
                 messages=[{"role": "user", "content": prompt}],
             )
-            raw = response.content[0].text.strip()
-            if raw.startswith("```"):
-                raw = raw.split("```")[1]
-                if raw.startswith("json"):
-                    raw = raw[4:]
-            content = json.loads(raw)["content"]
+            content = _parse_json_response(response.content[0].text.strip())["content"]
         except Exception as e:
             print(f"[summarise] Warning: failed to generate supplement summary for {sup_name}: {e}")
             content = f"Research summary for {sup_name} could not be generated at this time."
@@ -244,21 +229,17 @@ Return JSON with one key: "content" (the summary text)."""
 # Stage 3: symptom overview summaries
 # ---------------------------------------------------------------------------
 
-def _generate_symptom_summaries(conn, pair_summaries: list[dict]) -> None:
+def _generate_symptom_summaries(conn, pair_summaries: list[dict], client) -> None:
     """Generate one overview summary per symptom that has at least one pair summary."""
     if not pair_summaries:
         return
 
-    # Collect unique symptom ids that appear in pair summaries
     symptom_ids = list({p["symptom_id"] for p in pair_summaries})
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute("SELECT id, name FROM symptoms WHERE id = ANY(%s) ORDER BY name", (symptom_ids,))
     symptoms = cur.fetchall()
     print(f"[summarise] Generating symptom summaries for {len(symptoms)} symptoms...")
-
-    client = anthropic.Anthropic(api_key=os.environ["ENDO_API_KEY"])
-    import json
 
     for sym in symptoms:
         sym_id = sym["id"]
@@ -288,12 +269,7 @@ Return JSON with one key: "content" (the summary text)."""
                 max_tokens=512,
                 messages=[{"role": "user", "content": prompt}],
             )
-            raw = response.content[0].text.strip()
-            if raw.startswith("```"):
-                raw = raw.split("```")[1]
-                if raw.startswith("json"):
-                    raw = raw[4:]
-            content = json.loads(raw)["content"]
+            content = _parse_json_response(response.content[0].text.strip())["content"]
         except Exception as e:
             print(f"[summarise] Warning: failed to generate symptom summary for {sym_name}: {e}")
             content = f"Research summary for {sym_name} could not be generated at this time."
@@ -311,6 +287,16 @@ Return JSON with one key: "content" (the summary text)."""
 # Helpers
 # ---------------------------------------------------------------------------
 
+def _parse_json_response(raw: str) -> dict:
+    """Strip optional markdown fences and parse JSON from a Claude response."""
+    if raw.startswith("```"):
+        raw = raw[3:]  # strip opening ```
+        if raw.startswith("json"):
+            raw = raw[4:]
+        raw = raw.rsplit("```", 1)[0]
+    return json.loads(raw.strip())
+
+
 def _format_finding(n: int, f) -> str:
     parts = [f"Finding {n}: {f['plain_language_summary']}"]
     if f["study_type"]:
@@ -323,6 +309,8 @@ def _format_finding(n: int, f) -> str:
         parts.append(f"Duration: {f['duration']}")
     if f["placebo_controlled"] is not None:
         parts.append(f"Placebo-controlled: {f['placebo_controlled']}")
+    if f["safety_notes"]:
+        parts.append(f"Safety notes: {f['safety_notes']}")
     return "\n".join(parts)
 
 
