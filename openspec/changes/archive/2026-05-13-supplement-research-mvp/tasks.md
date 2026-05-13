@@ -61,8 +61,8 @@
 
 ## 9. End-to-End Seed & Verification
 
-- [ ] 9.1 Run pipeline for 3-5 seed supplements (e.g., NAC, Vitamin D, Omega-3, Magnesium, Resveratrol)
-- [ ] 9.2 Review and approve pipeline output
-- [ ] 9.3 Load approved findings into local Postgres
-- [ ] 9.4 Verify full flow: browse supplement → view finding → follow PubMed link
-- [ ] 9.5 Verify symptom navigation: select symptom → see relevant supplements
+- [x] 9.1 Run pipeline for 3-5 seed supplements (e.g., NAC, Vitamin D, Omega-3, Magnesium, Resveratrol)
+- [x] 9.2 Review and approve pipeline output
+- [x] 9.3 Load approved findings into local Postgres
+- [x] 9.4 Verify full flow: browse supplement → view finding → follow PubMed link
+- [x] 9.5 Verify symptom navigation: select symptom → see relevant supplements
