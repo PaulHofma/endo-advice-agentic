@@ -87,17 +87,26 @@ def load_findings(entries: list[dict], db_url: str) -> None:
             cur.execute("SELECT id FROM supplements WHERE name = %s", (supplement_name,))
             supplement_id = cur.fetchone()[0]
 
-        # Insert finding
+        # Upsert finding — ON CONFLICT updates all pipeline-derived columns so re-runs refresh stale data
         cur.execute(
             """
             INSERT INTO findings (
-                supplement_id, plain_language_summary, evidence_snapshot,
+                supplement_id, pmid, plain_language_summary, evidence_snapshot,
                 dosage, duration, study_type, sample_size, placebo_controlled, safety_notes
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (supplement_id, pmid) DO UPDATE SET
+                plain_language_summary = EXCLUDED.plain_language_summary,
+                evidence_snapshot = EXCLUDED.evidence_snapshot,
+                dosage = EXCLUDED.dosage,
+                duration = EXCLUDED.duration,
+                study_type = EXCLUDED.study_type,
+                sample_size = EXCLUDED.sample_size,
+                placebo_controlled = EXCLUDED.placebo_controlled,
+                safety_notes = EXCLUDED.safety_notes
             RETURNING id
             """,
-            (supplement_id, claim, f"Source: {title} ({year})",
+            (supplement_id, pmid, claim, f"Source: {title} ({year})",
              dosage, duration, study_type, sample_size, placebo_controlled, safety_notes),
         )
         finding_id = cur.fetchone()[0]
@@ -151,7 +160,7 @@ def load_findings(entries: list[dict], db_url: str) -> None:
             )
 
         inserted_findings += 1
-        print(f"  ✓ Inserted finding for {supplement_name} / PMID {pmid}")
+        print(f"  ✓ Upserted finding for {supplement_name} / PMID {pmid}")
 
     conn.commit()
     cur.close()
