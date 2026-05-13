@@ -1,11 +1,11 @@
-package com.endoadvice.model
+package com.endoadvice.infrastructure.persistence
 
 import jakarta.persistence.*
 import java.time.Instant
 
-@Entity
+@Entity(name = "Supplement")
 @Table(name = "supplements")
-class Supplement(
+class SupplementEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
@@ -19,5 +19,5 @@ class Supplement(
     val createdAt: Instant = Instant.now(),
 
     @OneToMany(mappedBy = "supplement", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    val findings: MutableList<Finding> = mutableListOf()
+    val findings: MutableList<FindingEntity> = mutableListOf()
 )

@@ -1,4 +1,4 @@
-package com.endoadvice.api
+package com.endoadvice.infrastructure.web
 
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

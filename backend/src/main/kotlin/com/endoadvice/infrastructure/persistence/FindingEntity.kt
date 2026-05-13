@@ -1,17 +1,17 @@
-package com.endoadvice.model
+package com.endoadvice.infrastructure.persistence
 
 import jakarta.persistence.*
 import java.time.Instant
 
-@Entity
+@Entity(name = "Finding")
 @Table(name = "findings")
-class Finding(
+class FindingEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "supplement_id", nullable = false)
-    val supplement: Supplement,
+    val supplement: SupplementEntity,
 
     @Column(nullable = false, columnDefinition = "TEXT")
     val plainLanguageSummary: String,
@@ -23,7 +23,7 @@ class Finding(
     val createdAt: Instant = Instant.now(),
 
     @OneToMany(mappedBy = "finding", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    val citations: MutableList<Citation> = mutableListOf(),
+    val citations: MutableList<CitationEntity> = mutableListOf(),
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -31,5 +31,5 @@ class Finding(
         joinColumns = [JoinColumn(name = "finding_id")],
         inverseJoinColumns = [JoinColumn(name = "symptom_id")]
     )
-    val symptoms: MutableList<Symptom> = mutableListOf()
+    val symptoms: MutableList<SymptomEntity> = mutableListOf()
 )

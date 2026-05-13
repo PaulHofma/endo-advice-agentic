@@ -1,9 +1,9 @@
-package com.endoadvice.api
+package com.endoadvice.infrastructure.web
 
-import com.endoadvice.model.Citation
-import com.endoadvice.model.Finding
-import com.endoadvice.model.Supplement
-import com.endoadvice.model.Symptom
+import com.endoadvice.domain.Citation
+import com.endoadvice.domain.Finding
+import com.endoadvice.domain.Supplement
+import com.endoadvice.domain.Symptom
 
 data class SupplementSummaryDto(
     val id: Long,

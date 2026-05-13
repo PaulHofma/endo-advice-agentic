@@ -1,10 +1,9 @@
-package com.endoadvice.repository
+package com.endoadvice.infrastructure.persistence
 
-import com.endoadvice.model.Symptom
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface SymptomRepository : JpaRepository<Symptom, Long> {
+interface SymptomJpaRepository : JpaRepository<SymptomEntity, Long> {
 
     @Query("""
         SELECT DISTINCT sy FROM Symptom sy
@@ -13,7 +12,7 @@ interface SymptomRepository : JpaRepository<Symptom, Long> {
             JOIN f.symptoms s WHERE s = sy
         )
     """)
-    fun findAllWithFindings(): List<Symptom>
+    fun findAllWithFindings(): List<SymptomEntity>
 
-    fun findBySlug(slug: String): Symptom?
+    fun findBySlug(slug: String): SymptomEntity?
 }

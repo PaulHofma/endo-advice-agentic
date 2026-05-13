@@ -1,15 +1,14 @@
-package com.endoadvice.repository
+package com.endoadvice.infrastructure.persistence
 
-import com.endoadvice.model.Finding
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface FindingRepository : JpaRepository<Finding, Long> {
+interface FindingJpaRepository : JpaRepository<FindingEntity, Long> {
 
     @Query("""
         SELECT DISTINCT f FROM Finding f
         JOIN f.symptoms sy
         WHERE sy.slug = :slug
     """)
-    fun findBySymptomSlug(slug: String): List<Finding>
+    fun findBySymptomSlug(slug: String): List<FindingEntity>
 }

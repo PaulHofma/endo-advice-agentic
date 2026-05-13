@@ -1,11 +1,11 @@
-package com.endoadvice.model
+package com.endoadvice.infrastructure.persistence
 
 import jakarta.persistence.*
 import java.time.Instant
 
-@Entity
+@Entity(name = "Symptom")
 @Table(name = "symptoms")
-class Symptom(
+class SymptomEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
@@ -19,5 +19,5 @@ class Symptom(
     val createdAt: Instant = Instant.now(),
 
     @ManyToMany(mappedBy = "symptoms", fetch = FetchType.LAZY)
-    val findings: MutableList<Finding> = mutableListOf()
+    val findings: MutableList<FindingEntity> = mutableListOf()
 )
