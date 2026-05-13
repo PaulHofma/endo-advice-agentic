@@ -58,6 +58,12 @@ def load_findings(entries: list[dict], db_url: str) -> None:
         authors = entry["authors"].strip()
         year = int(entry["year"])
         abstract_excerpt = entry["abstract_excerpt"].strip()
+        dosage = entry.get("dosage") or None
+        duration = entry.get("duration") or None
+        study_type = entry.get("study_type") or None
+        sample_size = int(entry["sample_size"]) if entry.get("sample_size") is not None else None
+        placebo_controlled = entry.get("placebo_controlled")
+        safety_notes = entry.get("safety_notes") or None
 
         if not pmid or not claim or not abstract_excerpt:
             print(f"  Skipping malformed entry: supplement={supplement_name}, pmid={pmid}")
@@ -84,11 +90,15 @@ def load_findings(entries: list[dict], db_url: str) -> None:
         # Insert finding
         cur.execute(
             """
-            INSERT INTO findings (supplement_id, plain_language_summary, evidence_snapshot)
-            VALUES (%s, %s, %s)
+            INSERT INTO findings (
+                supplement_id, plain_language_summary, evidence_snapshot,
+                dosage, duration, study_type, sample_size, placebo_controlled, safety_notes
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id
             """,
-            (supplement_id, claim, f"Source: {title} ({year})"),
+            (supplement_id, claim, f"Source: {title} ({year})",
+             dosage, duration, study_type, sample_size, placebo_controlled, safety_notes),
         )
         finding_id = cur.fetchone()[0]
 

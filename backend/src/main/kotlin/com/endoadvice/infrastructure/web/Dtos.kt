@@ -26,7 +26,13 @@ data class FindingDto(
     val plainLanguageSummary: String,
     val evidenceSnapshot: String,
     val citations: List<CitationDto>,
-    val symptoms: List<SymptomSummaryDto>
+    val symptoms: List<SymptomSummaryDto>,
+    val dosage: String?,
+    val duration: String?,
+    val studyType: String?,
+    val sampleSize: Int?,
+    val placeboControlled: Boolean?,
+    val safetyNotes: String?
 )
 
 data class SupplementDetailDto(
@@ -61,7 +67,13 @@ fun Finding.toDto() = FindingDto(
     plainLanguageSummary = plainLanguageSummary,
     evidenceSnapshot = evidenceSnapshot,
     citations = citations.map { it.toDto() },
-    symptoms = symptoms.map { it.toSummaryDto() }
+    symptoms = symptoms.map { it.toSummaryDto() },
+    dosage = dosage,
+    duration = duration,
+    studyType = studyType,
+    sampleSize = sampleSize,
+    placeboControlled = placeboControlled,
+    safetyNotes = safetyNotes
 )
 
 fun Supplement.toDetailDto() = SupplementDetailDto(

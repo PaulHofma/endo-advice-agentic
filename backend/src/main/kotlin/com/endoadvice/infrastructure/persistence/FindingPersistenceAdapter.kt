@@ -23,7 +23,13 @@ private fun FindingEntity.toDomain() = Finding(
     plainLanguageSummary = plainLanguageSummary,
     evidenceSnapshot = evidenceSnapshot,
     citations = citations.map { it.toDomain() },
-    symptoms = symptoms.map { it.toDomain() }
+    symptoms = symptoms.map { it.toDomain() },
+    dosage = dosage,
+    duration = duration,
+    studyType = studyType,
+    sampleSize = sampleSize,
+    placeboControlled = placeboControlled,
+    safetyNotes = safetyNotes
 )
 
 private fun CitationEntity.toDomain() = Citation(

@@ -36,6 +36,12 @@ export interface Finding {
   evidenceSnapshot: string;
   citations: Citation[];
   symptoms: SymptomSummary[];
+  dosage: string | null;
+  duration: string | null;
+  studyType: string | null;
+  sampleSize: number | null;
+  placeboControlled: boolean | null;
+  safetyNotes: string | null;
 }
 
 export interface SupplementDetail extends SupplementSummary {

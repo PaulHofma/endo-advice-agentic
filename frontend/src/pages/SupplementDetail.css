@@ -66,10 +66,41 @@
   line-height: 1.5;
 }
 
+.finding-credibility {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #7c3aed;
+  text-transform: uppercase;
+}
+
+.finding-clinical {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
 .finding-evidence {
   margin: 0 0 0.75rem;
   font-size: 0.85rem;
   color: #9ca3af;
+}
+
+.finding-safety {
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: #fff7ed;
+  border-left: 3px solid #f97316;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.85rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.finding-safety-label {
+  font-weight: 600;
+  color: #c2410c;
 }
 
 .citation-block {

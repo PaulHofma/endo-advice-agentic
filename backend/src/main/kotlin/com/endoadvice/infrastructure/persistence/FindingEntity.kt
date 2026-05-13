@@ -19,6 +19,22 @@ class FindingEntity(
     @Column(nullable = false, columnDefinition = "TEXT")
     val evidenceSnapshot: String,
 
+    @Column(columnDefinition = "TEXT")
+    val dosage: String? = null,
+
+    @Column(columnDefinition = "TEXT")
+    val duration: String? = null,
+
+    @Column(length = 20)
+    val studyType: String? = null,
+
+    val sampleSize: Int? = null,
+
+    val placeboControlled: Boolean? = null,
+
+    @Column(columnDefinition = "TEXT")
+    val safetyNotes: String? = null,
+
     @Column(nullable = false)
     val createdAt: Instant = Instant.now(),
 

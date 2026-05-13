@@ -56,6 +56,31 @@ export function SupplementDetail() {
             {supplement.findings.map((finding) => (
               <li key={finding.id} className="finding-item">
                 <p className="finding-summary">{finding.plainLanguageSummary}</p>
+
+                {/* Study credibility indicator */}
+                {(finding.studyType || finding.sampleSize != null) && (
+                  <p className="finding-credibility">
+                    {[
+                      finding.studyType?.toUpperCase().replace("_", " "),
+                      finding.sampleSize != null ? `n=${finding.sampleSize}` : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                )}
+
+                {/* Dosage and duration */}
+                {(finding.dosage || finding.duration) && (
+                  <p className="finding-clinical">
+                    {[
+                      finding.dosage ? `Dose: ${finding.dosage}` : null,
+                      finding.duration ? `Duration: ${finding.duration}` : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                )}
+
                 <p className="finding-evidence">{finding.evidenceSnapshot}</p>
                 {finding.citations.map((citation) => (
                   <blockquote key={citation.id} className="citation-block">
@@ -75,6 +100,13 @@ export function SupplementDetail() {
                     </footer>
                   </blockquote>
                 ))}
+                {finding.safetyNotes && (
+                  <div className="finding-safety">
+                    <span className="finding-safety-label">Safety note:</span>{" "}
+                    {finding.safetyNotes}
+                  </div>
+                )}
+
                 {finding.symptoms.length > 0 && (
                   <div className="finding-symptoms">
                     {finding.symptoms.map((s) => (
