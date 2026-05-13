@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.get
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class SymptomControllerTest {
-
     @Autowired
     lateinit var mockMvc: MockMvc
 

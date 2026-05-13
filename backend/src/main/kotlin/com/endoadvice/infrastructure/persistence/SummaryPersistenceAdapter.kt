@@ -1,6 +1,6 @@
 package com.endoadvice.infrastructure.persistence
 
-import com.endoadvice.application.port.out.SummaryPort
+import com.endoadvice.application.port.output.SummaryPort
 import com.endoadvice.domain.SupplementSymptomSummary
 import org.springframework.stereotype.Component
 
@@ -8,14 +8,12 @@ import org.springframework.stereotype.Component
 class SummaryPersistenceAdapter(
     private val supplementSummaryJpaRepository: SupplementSummaryJpaRepository,
     private val symptomSummaryJpaRepository: SymptomSummaryJpaRepository,
-    private val pairSummaryJpaRepository: SupplementSymptomSummaryJpaRepository
+    private val pairSummaryJpaRepository: SupplementSymptomSummaryJpaRepository,
 ) : SummaryPort {
-
     override fun findSupplementSummary(supplementId: Long): String? =
         supplementSummaryJpaRepository.findById(supplementId).orElse(null)?.content
 
-    override fun findSymptomSummary(symptomId: Long): String? =
-        symptomSummaryJpaRepository.findById(symptomId).orElse(null)?.content
+    override fun findSymptomSummary(symptomId: Long): String? = symptomSummaryJpaRepository.findById(symptomId).orElse(null)?.content
 
     override fun findPairSummariesForSupplement(supplementId: Long): List<SupplementSymptomSummary> =
         pairSummaryJpaRepository.findAllByIdSupplementId(supplementId).map { it.toDomain() }
@@ -24,9 +22,10 @@ class SummaryPersistenceAdapter(
         pairSummaryJpaRepository.findAllByIdSymptomId(symptomId).map { it.toDomain() }
 }
 
-private fun SupplementSymptomSummaryEntity.toDomain() = SupplementSymptomSummary(
-    supplementId = id.supplementId,
-    symptomId = id.symptomId,
-    content = content,
-    evidenceStrength = evidenceStrength
-)
+private fun SupplementSymptomSummaryEntity.toDomain() =
+    SupplementSymptomSummary(
+        supplementId = id.supplementId,
+        symptomId = id.symptomId,
+        content = content,
+        evidenceStrength = evidenceStrength,
+    )

@@ -71,10 +71,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Endo Advice research pipeline: PubMed → synthesis → verification → review file"
     )
-    parser.add_argument("--topic", default=None, help='Single search topic (backward-compatible), e.g. "NAC endometriosis"')
+    parser.add_argument(
+        "--topic", default=None, help='Single search topic (backward-compatible), e.g. "NAC endometriosis"'
+    )
     parser.add_argument("--topics", action="append", nargs="+", metavar="TOPIC", help="One or more topics (repeatable)")
     parser.add_argument("--topics-file", default=None, metavar="PATH", help="Path to newline-separated topics file")
-    parser.add_argument("--max-articles", type=int, default=15, help="Max PubMed results to fetch per topic (default: 15)")
+    parser.add_argument(
+        "--max-articles", type=int, default=15, help="Max PubMed results to fetch per topic (default: 15)"
+    )
     parser.add_argument("--output", default=None, help="Output review file path (default: auto-generated)")
     args = parser.parse_args()
 
@@ -101,7 +105,7 @@ def main() -> None:
     else:
         safe_topic = topics[0].replace(" ", "_").replace("/", "_")
         output_path = args.output or str(reviews_dir / f"review_{safe_topic}_{timestamp}.md")
-        print(f"=== Endo Advice Pipeline ===")
+        print("=== Endo Advice Pipeline ===")
         print(f"Topic: {topics[0]}")
 
     print(f"Max articles: {args.max_articles}")
@@ -132,8 +136,8 @@ def main() -> None:
 
     print(f"\nDone. Review {output_path}, then run:")
     print(f"  python3 load_findings.py --review {output_path}")
-    print(f"\nThe load command will automatically run the summarisation stage and append")
-    print(f"generated summaries to the review file for inspection.")
+    print("\nThe load command will automatically run the summarisation stage and append")
+    print("generated summaries to the review file for inspection.")
 
 
 if __name__ == "__main__":

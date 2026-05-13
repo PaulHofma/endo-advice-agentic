@@ -7,7 +7,7 @@ import java.time.Instant
 @Embeddable
 data class SupplementSymptomSummaryId(
     val supplementId: Long = 0,
-    val symptomId: Long = 0
+    val symptomId: Long = 0,
 ) : Serializable
 
 @Entity
@@ -15,13 +15,10 @@ data class SupplementSymptomSummaryId(
 class SupplementSymptomSummaryEntity(
     @EmbeddedId
     val id: SupplementSymptomSummaryId,
-
     @Column(nullable = false, columnDefinition = "TEXT")
     val content: String,
-
     @Column(nullable = false, length = 20)
     val evidenceStrength: String,
-
     @Column(nullable = false)
-    val generatedAt: Instant = Instant.now()
+    val generatedAt: Instant = Instant.now(),
 )

@@ -96,7 +96,7 @@ def write_review_file(findings: list[VerifiedFinding], output_path: str) -> None
     lines = [
         "# Pipeline Review File",
         "",
-        f"Total findings: {len(findings)} | Verified: {len(verified)} | Flagged: {len(flagged)} | Rejected: {len(rejected)}",
+        f"Total findings: {len(findings)} | Verified: {len(verified)} | Flagged: {len(flagged)} | Rejected: {len(rejected)}",  # noqa: E501
         "",
         "## Instructions",
         "- Mark `approved: true` on findings you want to load into the database.",

@@ -12,5 +12,5 @@ data class Finding(
     val studyType: String? = null,
     val sampleSize: Int? = null,
     val placeboControlled: Boolean? = null,
-    val safetyNotes: String? = null
+    val safetyNotes: String? = null,
 )

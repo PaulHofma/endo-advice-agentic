@@ -1,0 +1,5 @@
+root = true
+
+[*.{kt,kts}]
+# Jakarta Persistence and Spring Web annotations are conventional wildcard imports in JPA/Spring projects
+ij_kotlin_packages_to_use_import_on_demand = jakarta.persistence,org.springframework.web.bind.annotation

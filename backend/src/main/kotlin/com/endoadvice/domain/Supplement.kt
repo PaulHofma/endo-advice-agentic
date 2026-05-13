@@ -6,5 +6,5 @@ data class Supplement(
     val summary: String,
     val findings: List<Finding> = emptyList(),
     val supplementSummary: String? = null,
-    val pairSummaries: List<SupplementSymptomSummary> = emptyList()
+    val pairSummaries: List<SupplementSymptomSummary> = emptyList(),
 )

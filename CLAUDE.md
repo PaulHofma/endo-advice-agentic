@@ -86,6 +86,22 @@ When doing frontend work, invoke the appropriate skill or sub-agent for the acti
 
 These are triggers by *type of work*, not by file touched — a one-line component edit doesn't require a skill; adding a new page or redesigning a section does.
 
+## Linting
+
+All three layers must pass their linter before a change may be archived. **These must pass before any completion claim — run them as part of the verification gate, not as an afterthought.**
+
+```bash
+cd backend && ./gradlew ktlintCheck      # Kotlin — backend
+cd frontend && npm run lint              # TypeScript — frontend
+cd pipeline && ruff check .             # Python — pipeline
+```
+
+Auto-fix commands (run first, then check):
+```bash
+cd backend && ./gradlew ktlintFormat
+cd pipeline && ruff check --fix .
+```
+
 ## Key conventions
 
 - **Backend**: Kotlin idiomatic style. JPA entities are plain classes (no `data class` for JPA roots). Use `FetchType.LAZY` on all associations.

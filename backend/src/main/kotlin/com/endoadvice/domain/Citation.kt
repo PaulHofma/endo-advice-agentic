@@ -6,5 +6,5 @@ data class Citation(
     val title: String,
     val authors: String,
     val year: Int,
-    val abstractExcerpt: String
+    val abstractExcerpt: String,
 )

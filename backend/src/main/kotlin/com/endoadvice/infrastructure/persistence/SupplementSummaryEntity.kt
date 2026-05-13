@@ -8,10 +8,8 @@ import java.time.Instant
 class SupplementSummaryEntity(
     @Id
     val supplementId: Long,
-
     @Column(nullable = false, columnDefinition = "TEXT")
     val content: String,
-
     @Column(nullable = false)
-    val generatedAt: Instant = Instant.now()
+    val generatedAt: Instant = Instant.now(),
 )

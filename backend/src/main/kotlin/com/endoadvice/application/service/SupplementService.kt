@@ -1,18 +1,17 @@
 package com.endoadvice.application.service
 
-import com.endoadvice.application.port.`in`.GetSupplementDetailUseCase
-import com.endoadvice.application.port.`in`.ListSupplementsUseCase
-import com.endoadvice.application.port.out.SummaryPort
-import com.endoadvice.application.port.out.SupplementPort
+import com.endoadvice.application.port.input.GetSupplementDetailUseCase
+import com.endoadvice.application.port.input.ListSupplementsUseCase
+import com.endoadvice.application.port.output.SummaryPort
+import com.endoadvice.application.port.output.SupplementPort
 import com.endoadvice.domain.Supplement
 import org.springframework.stereotype.Service
 
 @Service
 class SupplementService(
     private val supplementPort: SupplementPort,
-    private val summaryPort: SummaryPort
+    private val summaryPort: SummaryPort,
 ) : ListSupplementsUseCase, GetSupplementDetailUseCase {
-
     override fun listSupplements(): List<Supplement> = supplementPort.findAll()
 
     override fun getSupplementDetail(id: Long): Supplement? {
@@ -21,7 +20,7 @@ class SupplementService(
         val pairSummaries = summaryPort.findPairSummariesForSupplement(id)
         return supplement.copy(
             supplementSummary = supplementSummary,
-            pairSummaries = pairSummaries
+            pairSummaries = pairSummaries,
         )
     }
 }

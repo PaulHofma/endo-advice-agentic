@@ -1,4 +1,4 @@
-package com.endoadvice.application.port.`in`
+package com.endoadvice.application.port.input
 
 import com.endoadvice.domain.SymptomDetail
 

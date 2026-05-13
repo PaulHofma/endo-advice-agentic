@@ -1,8 +1,9 @@
-package com.endoadvice.application.port.out
+package com.endoadvice.application.port.output
 
 import com.endoadvice.domain.Supplement
 
 interface SupplementPort {
     fun findAll(): List<Supplement>
+
     fun findById(id: Long): Supplement?
 }

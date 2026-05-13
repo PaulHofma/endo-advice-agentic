@@ -2,7 +2,7 @@
 
 import json
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import anthropic
 
@@ -33,7 +33,7 @@ def _build_synthesis_prompt(topic: str, articles: list[PubMedArticle]) -> str:
         f"PMID: {a.pmid}\nTitle: {a.title}\nAuthors: {a.authors} ({a.year})\nAbstract: {a.abstract}"
         for a in articles
     )
-    return f"""You are a medical research synthesizer for endometriosis and adenomyosis. 
+    return f"""You are a medical research synthesizer for endometriosis and adenomyosis.
 Your task is to extract structured research findings from PubMed abstracts.
 
 Topic: {topic}
