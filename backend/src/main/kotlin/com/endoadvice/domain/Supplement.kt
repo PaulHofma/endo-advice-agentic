@@ -4,5 +4,7 @@ data class Supplement(
     val id: Long,
     val name: String,
     val summary: String,
-    val findings: List<Finding> = emptyList()
+    val findings: List<Finding> = emptyList(),
+    val supplementSummary: String? = null,
+    val pairSummaries: List<SupplementSymptomSummary> = emptyList()
 )

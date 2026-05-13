@@ -163,6 +163,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Load approved pipeline findings into Postgres")
     parser.add_argument("--review", required=True, help="Path to review markdown file")
     parser.add_argument("--db-url", default=DEFAULT_DB_URL, help="Postgres connection URL")
+    parser.add_argument("--skip-summarise", action="store_true", help="Skip the summarisation stage after loading")
     args = parser.parse_args()
 
     print(f"Parsing review file: {args.review}")
@@ -170,6 +171,75 @@ def main() -> None:
     print(f"Found {len(entries)} approved entries\n")
 
     load_findings(entries, args.db_url)
+
+    if not args.skip_summarise:
+        print("\n=== Running summarisation stage ===")
+        from summarise import run as run_summarise
+        run_summarise(db_url=args.db_url)
+        print("\nSummarisation complete.")
+        _append_summaries_to_review(args.review, args.db_url)
+
+
+def _append_summaries_to_review(review_path: str, db_url: str) -> None:
+    """Append generated summaries to the review file for operator inspection."""
+    import psycopg2
+    import psycopg2.extras
+
+    try:
+        conn = psycopg2.connect(db_url)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+        cur.execute("""
+            SELECT s.name AS supplement, sy.name AS symptom,
+                   sss.content, sss.evidence_strength
+            FROM supplement_symptom_summaries sss
+            JOIN supplements s ON s.id = sss.supplement_id
+            JOIN symptoms sy ON sy.id = sss.symptom_id
+            ORDER BY s.name, sy.name
+        """)
+        pairs = cur.fetchall()
+
+        cur.execute("""
+            SELECT s.name, ss.content
+            FROM supplement_summaries ss
+            JOIN supplements s ON s.id = ss.supplement_id
+            ORDER BY s.name
+        """)
+        sup_summaries = cur.fetchall()
+
+        cur.execute("""
+            SELECT sy.name, ys.content
+            FROM symptom_summaries ys
+            JOIN symptoms sy ON sy.id = ys.symptom_id
+            ORDER BY sy.name
+        """)
+        sym_summaries = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        lines = [
+            "\n\n---\n",
+            "## Generated Summaries\n\n",
+            "### Supplement × Symptom Pair Summaries\n\n",
+        ]
+        for p in pairs:
+            lines.append(f"**{p['supplement']} × {p['symptom']}** `{p['evidence_strength']}`\n")
+            lines.append(f"{p['content']}\n\n")
+
+        lines.append("### Supplement Overview Summaries\n\n")
+        for s in sup_summaries:
+            lines.append(f"**{s['name']}**\n{s['content']}\n\n")
+
+        lines.append("### Symptom Overview Summaries\n\n")
+        for s in sym_summaries:
+            lines.append(f"**{s['name']}**\n{s['content']}\n\n")
+
+        with open(review_path, "a", encoding="utf-8") as f:
+            f.writelines(lines)
+
+        print(f"Summaries appended to {review_path}")
+    except Exception as e:
+        print(f"Warning: could not append summaries to review file: {e}")
 
 
 if __name__ == "__main__":

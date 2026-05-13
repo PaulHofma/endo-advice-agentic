@@ -44,8 +44,28 @@ export interface Finding {
   safetyNotes: string | null;
 }
 
-export interface SupplementDetail extends SupplementSummary {
+export interface SupplementSymptomSection {
+  symptom: SymptomSummary;
+  pairSummary: string | null;
+  evidenceStrength: string | null;
   findings: Finding[];
+}
+
+export interface SupplementDetail extends SupplementSummary {
+  supplementSummary: string | null;
+  symptomSections: SupplementSymptomSection[];
+}
+
+export interface SymptomSupplementSection {
+  supplement: SupplementSummary;
+  pairSummary: string | null;
+  evidenceStrength: string | null;
+  findings: Finding[];
+}
+
+export interface SymptomDetailResponse {
+  symptomSummary: string | null;
+  supplements: SymptomSupplementSection[];
 }
 
 export const api = {
@@ -53,5 +73,5 @@ export const api = {
   getSupplementById: (id: number) => apiFetch<SupplementDetail>(`/api/supplements/${id}`),
   getSymptoms: () => apiFetch<SymptomSummary[]>("/api/symptoms"),
   getSupplementsBySymptom: (slug: string) =>
-    apiFetch<SupplementDetail[]>(`/api/symptoms/${slug}/supplements`),
+    apiFetch<SymptomDetailResponse>(`/api/symptoms/${slug}/supplements`),
 };

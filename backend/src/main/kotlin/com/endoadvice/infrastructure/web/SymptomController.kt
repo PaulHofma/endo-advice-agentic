@@ -17,9 +17,9 @@ class SymptomController(
         listSymptomsUseCase.listSymptoms().map { it.toSummaryDto() }
 
     @GetMapping("/{slug}/supplements")
-    fun getSupplementsForSymptom(@PathVariable slug: String): ResponseEntity<List<SupplementDetailDto>> {
-        val supplements = getSupplementsForSymptomUseCase.getSupplementsForSymptom(slug)
+    fun getSupplementsForSymptom(@PathVariable slug: String): ResponseEntity<SymptomDetailResponseDto> {
+        val detail = getSupplementsForSymptomUseCase.getSupplementsForSymptom(slug)
             ?: return ResponseEntity.notFound().build()
-        return ResponseEntity.ok(supplements.map { it.toDetailDto() })
+        return ResponseEntity.ok(detail.toResponseDto())
     }
 }

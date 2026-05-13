@@ -61,6 +61,8 @@ def main() -> None:
 
     print(f"\nDone. Review {output_path}, then run:")
     print(f"  python3 load_findings.py --review {output_path}")
+    print(f"\nThe load command will automatically run the summarisation stage and append")
+    print(f"generated summaries to the review file for inspection.")
 
 
 if __name__ == "__main__":
