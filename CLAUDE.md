@@ -92,3 +92,4 @@ These are triggers by *type of work*, not by file touched — a one-line compone
 - **Pipeline**: Use `python3`, not `python`. The pipeline is the only writer to the database; the backend is read-only.
 - **OpenSpec**: Feature specs live in `openspec/specs/`, changes in `openspec/changes/`. Follow the spec-driven workflow before implementing features.
 - **Commits**: Use conventional commits (`feat:`, `fix:`, `chore:`, etc.).
+- **CSS colors**: All component CSS MUST use custom properties defined in `frontend/src/index.css` — no hardcoded hex colors. Exception: the `#7c3aed` purple nav header in `Layout.css`, which is intentionally brand-fixed.

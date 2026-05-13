@@ -2,11 +2,11 @@
   margin: 0 0 0.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-h);
 }
 
 .page-subtitle {
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 0.95rem;
   margin: 0 0 1.5rem;
 }
@@ -21,8 +21,8 @@
   display: inline-block;
   padding: 0.5rem 1.25rem;
   border-radius: 99px;
-  background: #ede9fe;
-  color: #6d28d9;
+  background: var(--surface-tag);
+  color: var(--text-tag);
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
@@ -30,12 +30,12 @@
 }
 
 .symptom-card:hover {
-  background: #7c3aed;
+  background: var(--accent);
   color: #fff;
 }
 
 .state-msg {
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 

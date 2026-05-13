@@ -2,14 +2,14 @@
   margin: 0 0 1rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-h);
 }
 
 .search-input {
   width: 100%;
   max-width: 360px;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--input-border);
   border-radius: 6px;
   font-size: 0.95rem;
   margin-bottom: 1.25rem;
@@ -18,8 +18,8 @@
 }
 
 .search-input:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-bg);
 }
 
 .supplement-grid {
@@ -29,7 +29,7 @@
 }
 
 .state-msg {
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 

@@ -11,6 +11,30 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
+  --surface: #ffffff;
+  --surface-raised: #f9fafb;
+  --surface-accent: #f5f3ff;
+  --surface-tag: #ede9fe;
+
+  --text-muted: #6b7280;
+  --text-secondary: #374151;
+  --text-tag: #6d28d9;
+
+  --badge-strong-bg: #dcfce7;
+  --badge-strong-text: #15803d;
+  --badge-moderate-bg: #dbeafe;
+  --badge-moderate-text: #1d4ed8;
+  --badge-preliminary-bg: #fef9c3;
+  --badge-preliminary-text: #854d0e;
+  --badge-conflicting-bg: #fee2e2;
+  --badge-conflicting-text: #b91c1c;
+
+  --safety-bg: #fff7ed;
+  --safety-border: #f97316;
+  --safety-label: #c2410c;
+
+  --input-border: #d1d5db;
+
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -43,6 +67,30 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --surface: #1f2028;
+    --surface-raised: #252631;
+    --surface-accent: #1e1730;
+    --surface-tag: #2e1a4a;
+
+    --text-muted: #9ca3af;
+    --text-secondary: #d1d5db;
+    --text-tag: #c084fc;
+
+    --badge-strong-bg: #14532d;
+    --badge-strong-text: #86efac;
+    --badge-moderate-bg: #1e3a5f;
+    --badge-moderate-text: #93c5fd;
+    --badge-preliminary-bg: #3d2e00;
+    --badge-preliminary-text: #fde68a;
+    --badge-conflicting-bg: #450a0a;
+    --badge-conflicting-text: #fca5a5;
+
+    --safety-bg: #2d1e0f;
+    --safety-border: #f97316;
+    --safety-label: #fb923c;
+
+    --input-border: #3f4150;
   }
 
   #social .button-icon {

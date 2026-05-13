@@ -1,29 +1,29 @@
 .supplement-card {
   display: block;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1rem 1.25rem;
   text-decoration: none;
   color: inherit;
   transition: box-shadow 0.15s, border-color 0.15s;
-  background: #fff;
+  background: var(--surface);
 }
 
 .supplement-card:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-color: #7c3aed;
+  border-color: var(--accent);
 }
 
 .supplement-card-name {
   margin: 0 0 0.4rem;
   font-size: 1rem;
   font-weight: 600;
-  color: #7c3aed;
+  color: var(--accent);
 }
 
 .supplement-card-summary {
   margin: 0;
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--text-muted);
   line-height: 1.5;
 }
