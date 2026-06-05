@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.spring") version "2.4.0"
     kotlin("plugin.jpa") version "2.4.0"
     id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
-    id("com.github.ben-manes.versions") version "0.51.0"
+    id("com.github.ben-manes.versions") version "0.54.0"
 }
 
 group = "com.endoadvice"
