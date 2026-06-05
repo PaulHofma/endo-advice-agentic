@@ -16,14 +16,17 @@ class SymptomService(
     private val findingPort: FindingPort,
     private val supplementPort: SupplementPort,
     private val summaryPort: SummaryPort,
-) : ListSymptomsUseCase, GetSupplementsForSymptomUseCase {
+) : ListSymptomsUseCase,
+    GetSupplementsForSymptomUseCase {
     override fun listSymptoms(): List<Symptom> = symptomPort.findAll()
 
     override fun getSupplementsForSymptom(slug: String): SymptomDetail? {
         val symptom = symptomPort.findBySlug(slug) ?: return null
         val findings = findingPort.findBySymptomSlug(slug)
         val supplements =
-            findings.map { it.supplementId }.distinct()
+            findings
+                .map { it.supplementId }
+                .distinct()
                 .mapNotNull { supplementPort.findById(it) }
                 .map { sup ->
                     val pairSummaries = summaryPort.findPairSummariesForSupplement(sup.id)

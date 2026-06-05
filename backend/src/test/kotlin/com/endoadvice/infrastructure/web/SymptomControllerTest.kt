@@ -18,21 +18,23 @@ class SymptomControllerTest {
 
     @Test
     fun `GET symptoms returns empty list when no symptoms with findings exist`() {
-        mockMvc.get("/api/symptoms") {
-            accept = MediaType.APPLICATION_JSON
-        }.andExpect {
-            status { isOk() }
-            content { contentType(MediaType.APPLICATION_JSON) }
-            jsonPath("$") { isArray() }
-        }
+        mockMvc
+            .get("/api/symptoms") {
+                accept = MediaType.APPLICATION_JSON
+            }.andExpect {
+                status { isOk() }
+                content { contentType(MediaType.APPLICATION_JSON) }
+                jsonPath("$") { isArray() }
+            }
     }
 
     @Test
     fun `GET symptoms slug supplements returns 404 for unknown slug`() {
-        mockMvc.get("/api/symptoms/unknown-slug/supplements") {
-            accept = MediaType.APPLICATION_JSON
-        }.andExpect {
-            status { isNotFound() }
-        }
+        mockMvc
+            .get("/api/symptoms/unknown-slug/supplements") {
+                accept = MediaType.APPLICATION_JSON
+            }.andExpect {
+                status { isNotFound() }
+            }
     }
 }

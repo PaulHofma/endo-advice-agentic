@@ -102,9 +102,10 @@ fun Finding.toDto() =
 fun Supplement.toDetailDto(): SupplementDetailDto {
     val pairBySymptom = pairSummaries.associateBy { it.symptomId }
     val findingsBySymptom =
-        findings.flatMap { f ->
-            f.symptoms.map { s -> s to f }
-        }.groupBy({ it.first }, { it.second })
+        findings
+            .flatMap { f ->
+                f.symptoms.map { s -> s to f }
+            }.groupBy({ it.first }, { it.second })
 
     val symptomSections =
         findingsBySymptom.entries.map { (symptom, sFindings) ->
