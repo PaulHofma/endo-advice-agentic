@@ -18,21 +18,23 @@ class SupplementControllerTest {
 
     @Test
     fun `GET supplements returns empty list when no supplements exist`() {
-        mockMvc.get("/api/supplements") {
-            accept = MediaType.APPLICATION_JSON
-        }.andExpect {
-            status { isOk() }
-            content { contentType(MediaType.APPLICATION_JSON) }
-            jsonPath("$") { isArray() }
-        }
+        mockMvc
+            .get("/api/supplements") {
+                accept = MediaType.APPLICATION_JSON
+            }.andExpect {
+                status { isOk() }
+                content { contentType(MediaType.APPLICATION_JSON) }
+                jsonPath("$") { isArray() }
+            }
     }
 
     @Test
     fun `GET supplement by unknown id returns 404`() {
-        mockMvc.get("/api/supplements/999999") {
-            accept = MediaType.APPLICATION_JSON
-        }.andExpect {
-            status { isNotFound() }
-        }
+        mockMvc
+            .get("/api/supplements/999999") {
+                accept = MediaType.APPLICATION_JSON
+            }.andExpect {
+                status { isNotFound() }
+            }
     }
 }

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service
 class SupplementService(
     private val supplementPort: SupplementPort,
     private val summaryPort: SummaryPort,
-) : ListSupplementsUseCase, GetSupplementDetailUseCase {
+) : ListSupplementsUseCase,
+    GetSupplementDetailUseCase {
     override fun listSupplements(): List<Supplement> = supplementPort.findAll()
 
     override fun getSupplementDetail(id: Long): Supplement? {
