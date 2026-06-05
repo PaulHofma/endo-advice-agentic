@@ -1,12 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    id("org.springframework.boot") version "3.3.5"
-    id("io.spring.dependency-management") version "1.1.6"
+    id("org.springframework.boot") version "3.5.14"
+    id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
     kotlin("plugin.jpa") version "1.9.25"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+    id("com.github.ben-manes.versions") version "0.51.0"
 }
 
 group = "com.endoadvice"
@@ -44,4 +46,13 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+fun isStable(version: String): Boolean {
+    val unstableKeywords = listOf("alpha", "beta", "rc", "cr", "m", "preview", "snapshot")
+    return unstableKeywords.none { version.lowercase().contains(it) }
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf { !isStable(candidate.version) }
 }
